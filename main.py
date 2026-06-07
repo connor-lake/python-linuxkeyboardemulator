@@ -6,12 +6,12 @@ for _ in devices:
     print(_.path, _.name, _.phys)
 print("If you are unable to see your device, try running as root.")
 d = input("Event Path (e.g. /dev/input/event0): ")
-k = input("Key (e.g: SPACE, A, ENTER): ").upper()
+k = input("Keys to press (e.g: SPACE, A, ENTER. Seperate by `;`): ").upper()
 delay = int(input("Delay in ms (1000 - 1s, 3500 - 3.5s): "))
 
 
 device = InputDevice(d)
-key = getattr(ecodes, f'KEY_{k}')
+keys = k.split(';')
 
 while True:
     try:
@@ -19,10 +19,12 @@ while True:
          # device.syn synchroinises keypresse and fires
          # all events that are in queue
          sleep(delay / 1000)
-         for _ in range(2):
-             device.write(ecodes.EV_KEY, key, _-1)
-             device.syn()
-             sleep(0.1)
+         for k in keys:
+            key = getattr(ecodes, f'KEY_{k}')
+            for _ in range(2):
+                 device.write(ecodes.EV_KEY, key, _-1)
+                 device.syn()
+                 sleep(0.1)
          # for some reason, some applications will bug
          # if i do not .syn() after down and up
          # they also need a delay, for some reason
