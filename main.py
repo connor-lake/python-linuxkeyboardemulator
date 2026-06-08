@@ -29,7 +29,7 @@ while True:
          # if i do not .syn() after down and up
          # they also need a delay, for some reason
          # tested: injustice 2 on wine
-         print(f"KeyPress KEY_{k} simulated, CTRL+C to exit.")
+         print(f"KeyPresses KEY_{" KEY_".join(keys)} simulated, CTRL+C to exit.")
     except KeyboardInterrupt:
         print("KeyboardInterrupt, exiting...")
         exit()
